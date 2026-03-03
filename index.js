@@ -15,105 +15,130 @@ const client = new Client({
   ]
 });
 
-// --- Blocklist ---
+// --- Updated Blocklist (Strictly killing the "Boring" words) ---
 const blocklist = [
   "very", "mere", "own", "half", "least", "whole", "entire", "nearby",
   "mixed", "heavy", "light", "natural", "national", "primary", "secondary",
-  "original", "native", "cardiac", "acoustic", "mediastinal", "geometrical",
-  "shaped", "growth", "boreal", "montane", "amazonian", "equatorial",
+  "original", "native", "cardiac", "acoustic", "mediastinal", "shaped", "growth", "boreal", "montane", "equatorial",
   "slight", "slightest", "faintest", "vain", "cool", "cold", "open",
   "deep", "deeper", "deepest", "tall", "huge", "giant", "gigantic",
   "broad", "thin", "sharp", "soft", "vast", "great", "large", "small",
   "long", "high", "low", "warm", "blue", "green", "gray", "grey", "purple",
-  "black", "white", "red", "pink", "yellow", "brown"
+  "black", "white", "red", "pink", "yellow", "brown", "respective", "modified",
+  "interesting", "saxon", "otic", "bad", "good", "various", "several", "minimum", "maximum", "average", "standard", "initial", "former", "latter", 
+  "present", "current", "potential", "possible", "actual", "relative", 
+  "sufficient", "adequate", "appropriate", "particular", "specific", 
+  "certain", "various", "multiple", "numorous", "several"
 ];
 
-// --- Seed Words for Datamuse ---
-const seedWords = [
-  // Dark & Mysterious
+// --- The Master Seed List (Combining your Vibes + Artistic Anchors) ---
+const masterSeeds = [
   "shadow", "void", "ruin", "ghost", "abyss", "curse", "dread", "omen", "specter", "hollow",
-  // Nature & Organic
   "forest", "ocean", "storm", "crystal", "flame", "glacier", "swamp", "thorn", "moss", "petal",
-  // Cosmic & Celestial
   "galaxy", "nebula", "comet", "eclipse", "cosmos", "pulsar", "aurora", "solstice", "zenith", "meteor",
-  // Mystical & Magical
   "spirit", "dream", "ancient", "magic", "oracle", "ritual", "relic", "myth", "fable", "enchant",
-  // Decay & Time
   "fossil", "tomb", "ember", "ash", "rust", "dust", "erosion", "wreckage", "remnant", "solitude",
-  // Elemental
   "inferno", "tempest", "torrent", "avalanche", "quake", "frost", "surge", "vapor", "miasma", "ether",
-  // Architectural
   "cathedral", "labyrinth", "fortress", "sanctum", "vault", "citadel", "spire", "crypt", "dungeon", "tower",
-  // Ethereal & Abstract
-  "illusion", "mirage", "echo", "whisper", "silence", "reverie", "phantom", "wisp", "haze", "specter"
+  "cinematic", "vibrant", "luminous", "iridescent", "monochrome", "neon", "vivid", "opalescent", "prismatic",
+  "ethereal", "ominous", "serene", "melancholy", "haunting", "mystical", "celestial", "dreamy", "gloomy", "radiant",
+  "surreal", "dystopian", "cyberpunk", "gothic", "baroque", "minimalist", "steampunk", "abstract", "vaporwave", "noir",
+  "intricate", "shattered", "weathered", "fluid", "crystalline", "ornate", "decayed", "polished", "biomorphic", "geometric",
+  "volcanic", "frozen", "overgrown", "submerged", "verdant", "ashen", "cosmic", "primordial", "eternal",
+  "bloom", "fauna", "thicket", "willow", "nautilus", "talisman", "amulet", "automaton", "hourglass", "apparatus"
 ];
 
-// --- Fallback Modifiers (used if Datamuse fails) ---
+// --- Hand-Picked Fallbacks (Your "Gems" that always stay in the pool) ---
 const fallbackModifiers = [
   "Bioluminescent", "Crystallized", "Clockwork", "Neon", "Haunted", "Forgotten", "Ancient", "Living", "Shattered", "Overgrown",
   "Celestial", "Cursed", "Hollow", "Gilded", "Spectral", "Submerged", "Fractured", "Eternal", "Burning", "Frozen",
   "Withered", "Radiant", "Corrupted", "Translucent", "Rusted", "Twisted", "Luminous", "Decayed", "Sacred", "Volcanic",
   "Serene", "Chaotic", "Mirrored", "Drifting", "Shimmering", "Forsaken", "Towering", "Whispering", "Crumbling", "Blazing",
   "Sunken", "Verdant", "Ashen", "Obsidian", "Phantom", "Colossal", "Tangled", "Sovereign", "Molten", "Iridescent",
-  "Barren", "Shifting", "Glitching", "Feral", "Arcane", "Mechanical", "Primordial",
-  "Cybernetic", "Industrial", "Prismatic", "Ethereal", "Nebulous", "Gothic", "Cinematic", "Vaporwave", "Retro", "Mythical",
-  "Starlit", "Opalescent", "Synthetic", "Impossible", "Geometric", "Velvet", "Static", "Floral", "Abyssal", "Monolithic"
+  "Barren", "Shifting", "Glitching", "Feral", "Arcane", "Mechanical", "Primordial", "Cybernetic", "Industrial", 
+  "Prismatic", "Ethereal", "Nebulous", "Gothic", "Cinematic", "Vaporwave", "Retro", "Mythical", "Starlit", 
+  "Opalescent", "Synthetic", "Impossible", "Geometric", "Velvet", "Static", "Floral", "Abyssal", "Monolithic"
 ];
 
-const subjects = [
+// --- Hand-Picked Base Subjects ---
+const fallbackSubjects = [
   "Forest", "Ocean", "Temple", "Carnival", "Civilization", "Machine", "Garden", "Archive", "Creature", "Tower",
   "Ritual", "Throne", "Ruin", "Dream", "Portal", "Vessel", "Labyrinth", "Oracle", "Bloom", "Void",
   "Cathedral", "Wasteland", "Specter", "Colossus", "Abyss", "Clocktower", "Shoreline", "Sanctum", "Behemoth", "Mirage",
   "Fortress", "Cavern", "Nebula", "Wraith", "Canopy", "Citadel", "Reef", "Monolith", "Ember", "Shipwreck",
   "Meadow", "Spire", "Tundra", "Altar", "Swamp", "Glacier", "Serpent", "Horizon", "Marketplace", "Observatory",
-  "Graveyard", "Titan", "Battlefield", "Oasis", "Library", "Volcano", "Crown",
-  "Metropolis", "Outpost", "Sanctuary", "Greenhouse", "Relic", "Automaton", "Deity", "Artifact", "Monument", "Engine",
-  "Key", "Tide", "Supernova", "Peak", "Grove", "Summit", "Android", "Samurai"
+  "Graveyard", "Titan", "Battlefield", "Oasis", "Library", "Volcano", "Crown", "Metropolis", "Outpost", 
+  "Sanctuary", "Greenhouse", "Relic", "Automaton", "Deity", "Artifact", "Monument", "Engine", "Key", "Tide", 
+  "Supernova", "Peak", "Grove", "Summit", "Android", "Samurai", "Sunflower", "Ashtray", "Embroidery", "Interface", 
+  "Ink Blot", "Lace", "Porcelain", "Tarot Card", "Matchstick", "Microscope", "Statue", "Velvet", "Poseidon",
+  "Hourglass", "Phonograph", "Koi Fish", "Dandelion", "Pocket Watch", "Hummingbird", "Amulet", "Raindrop", 
+  "Telescope", "Feather", "Lantern", "Chessboard", "Willow Tree", "Cat's Eye", "Stained Glass", "Inkwell", "Moth", "Coral"
 ];
 
 let modifiers = [];
+let dynamicSubjects = [];
 
-// --- Fetch Modifiers from Datamuse ---
+// --- Fetch Modifiers (Adjectives) ---
 async function fetchModifiers() {
-  console.log('🌐 Fetching modifiers from Datamuse...');
+  console.log('🔄 Ribbit is curating modifiers...');
   const wordSet = new Set();
-
-  for (const seed of seedWords) {
+  for (const seed of masterSeeds) {
     try {
-      const response = await fetch(`https://api.datamuse.com/words?rel_jjb=${seed}&max=100`);
+      const response = await fetch(`https://api.datamuse.com/words?ml=${seed}&max=15&md=p`);
       const words = await response.json();
       words.forEach(w => {
         const word = w.word.toLowerCase();
-        if (
-          word.length >= 3 &&
-          !blocklist.includes(word) &&
-          !word.includes(' ') &&
-          /^[a-z]+$/.test(word)
-        ) {
+        const isAdj = w.tags && w.tags.includes('adj');
+        if (isAdj && word.length > 5 && !blocklist.includes(word) && /^[a-z]+$/.test(word)) {
           wordSet.add(word.charAt(0).toUpperCase() + word.slice(1));
         }
       });
-    } catch (err) {
-      console.error(`Failed to fetch for seed: ${seed}`, err);
-    }
+    } catch (err) { /* silent */ }
   }
-
-  if (wordSet.size > 0) {
-    modifiers = [...wordSet];
-    console.log(`✅ Loaded ${modifiers.length} modifiers from Datamuse!`);
-  } else {
-    modifiers = fallbackModifiers;
-    console.log(`⚠️ Datamuse failed, using ${modifiers.length} fallback modifiers.`);
-  }
+  modifiers = [...new Set([...fallbackModifiers, ...wordSet])];
+  console.log(`✅ Loaded ${modifiers.length} modifiers.`);
 }
 
-// --- Theme Generator ---
+// --- Fetch Subjects (Nouns) ---
+async function fetchSubjects() {
+  console.log('🔄 Ribbit is hunting for dynamic subjects...');
+  const subjectSet = new Set();
+  for (const seed of masterSeeds) {
+    try {
+      const response = await fetch(`https://api.datamuse.com/words?ml=${seed}&max=15&md=p`);
+      const words = await response.json();
+      words.forEach(w => {
+        const word = w.word.toLowerCase();
+        const isNoun = w.tags && w.tags.includes('n');
+        if (isNoun && word.length > 4 && !blocklist.includes(word) && /^[a-z]+$/.test(word)) {
+          subjectSet.add(word.charAt(0).toUpperCase() + word.slice(1));
+        }
+      });
+    } catch (err) { /* silent */ }
+  }
+  dynamicSubjects = [...new Set([...fallbackSubjects, ...subjectSet])];
+  console.log(`✅ Loaded ${dynamicSubjects.length} dynamic subjects.`);
+}
+
+// --- Theme Generator (The Whirl Logic) ---
 function getDailyTheme() {
-  const modifier = modifiers[Math.floor(Math.random() * modifiers.length)] || "Mystical";
-  const subject = subjects[Math.floor(Math.random() * subjects.length)] || "Ethereal";
-  return `${modifier} ${subject}`;
-}
+  const roll = Math.random();
+  const mod = modifiers[Math.floor(Math.random() * modifiers.length)] || "Ethereal";
+  const sub = dynamicSubjects[Math.floor(Math.random() * dynamicSubjects.length)] || "Relic";
 
+  // 25% Chance: Single Word (Pure Whirl)
+  if (roll < 0.25) return sub;
+
+  // 15% Chance: Color Vibe
+  if (roll < 0.40) {
+    const colors = ["Indigo", "Cerulean", "Crimson", "Amber", "Obsidian", "Onyx", "Pearl", "Violet", "Ochre", "Emerald"];
+    const color = colors[Math.floor(Math.random() * colors.length)];
+    return `${color} ${sub}`;
+  }
+
+  // 60% Chance: Dynamic Duo
+  return `${mod} ${sub}`;
+}
 
 // --- Post Theme Embed ---
 async function postDailyTheme(targetChannel = null) {
@@ -135,7 +160,7 @@ async function postDailyTheme(targetChannel = null) {
 }
 
 // --- Bot Ready ---
-client.once('clientReady', async () => {
+client.once('ready', async () => { // Fixed typo: 'clientReady' to 'ready'
   const mode = isDev ? 'DEVELOPMENT' : 'PRODUCTION';
   console.log(`🐸 Ribbit is online as ${client.user.tag} [${mode} MODE]`);
 
@@ -144,7 +169,9 @@ client.once('clientReady', async () => {
     type: ActivityType.Watching
   });
 
+  // Load both dynamic lists at startup
   await fetchModifiers();
+  await fetchSubjects();
 
   cron.schedule('0 7 * * *', () => {
     console.log(`[${new Date().toLocaleTimeString()}] Posting scheduled daily theme...`);
@@ -168,12 +195,11 @@ client.on('messageCreate', async (message) => {
   }
 
   if (message.content === '!ribbit') {
-    const modifier = modifiers[Math.floor(Math.random() * modifiers.length)];
-    const subject = subjects[Math.floor(Math.random() * subjects.length)];
+    const theme = getDailyTheme(); // Use the shared logic for !ribbit too!
 
     const ribbitEmbed = new EmbedBuilder()
       .setTitle('🐸 Ribbit!')
-      .setDescription(`## *${modifier} ${subject}*`)
+      .setDescription(`## *${theme}*`)
       .setColor(0x9B59B6)
       .setFooter({ text: 'Is this... Ribbit-ing enough for you?' });
 
